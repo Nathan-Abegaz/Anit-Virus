@@ -3,7 +3,7 @@
     echo <<<_END
     <html><head><title>Anti-Virus</title></head><body>
     <h1>Anti-Virus </h1>
-    <a href="admin.php">Click here for admin </a><br><br>
+    <a href="adminAuthenticate.php">Click here for admin </a><br><br>
     <h2>User</h2>
     <form method = 'post' action = 'midterm.php' enctype = 'multipart/form-data'>
     Select File: <input type = 'file' name = 'userFile' size = '10' >

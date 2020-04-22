@@ -5,7 +5,7 @@
 echo <<<_END
 <html><head><title>Anti-Virus</title></head><body>
 <h1>Anti-Virus</h1>
-<a href="midterm.php">Click here for user </a><br>
+<a href="user.php">Click here for user </a><br>
 <h2>Admin-Upload</h2>
 <form method = 'post' action = 'adminUpload.php' enctype = 'multipart/form-data'>
     File name: <input type = 'text' name = 'adminFileName' size = '20'><br>

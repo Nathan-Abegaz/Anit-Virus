@@ -1,5 +1,5 @@
 <?php
-    require_once 'login.php';
+    require_once 'hw6login.php';
 
     $conn = new mysqli($hn, $un, $pw, $db); //Establish a connection
     if($conn->connect_error) die("OOPS");
