@@ -1,8 +1,6 @@
 <?php
 
 require_once 'login.php';
-require_once 'setupAdmin.php';
-require_once 'sanitize.php';
 
 $conn = new mysqli($hn, $un, $pw, $db);
 if($conn ->connect_error)die ("OOOPS");
@@ -59,7 +57,7 @@ echo <<<_END
 <html><head><title>Anti-Virus</title></head><body>
 <h1>Anti-Virus-Scanner</h1>
 <h4>Admin-Infected File Upload</h4>
-    <form method = 'post' action = 'adminAuthenticate.php' enctype = 'multipart/form-data'>
+    <form method = 'post' action = 'admin.php' enctype = 'multipart/form-data'>
         File name: <input type = 'text' name = 'adminFileName' size = '20'><br>
         Select File: <input type = 'file' name = 'adminFile' size = '10' >
         <input type = 'submit' name = 'adminUploadButton' value = 'Upload'><br><br><br
@@ -67,13 +65,13 @@ echo <<<_END
 _END;
 
 //Check if admin has uploaded file
-if(isset($_FILES['adminFile'])){
+if($_FILES){
   if(file_exists($_FILES['adminFile']['tmp_name']) && !empty($_POST['adminFileName'])){
     //Perform virus check here
       $virus_signature = get_virus_signature($conn);
       $virus_name = mysql_entities_fix_string($conn, $_POST['adminFileName']);
       add_Virus_To_DB($conn, $virus_name, $virus_signature);
-      echo "Virus name and Virus signature has been succesfuly been uploaded to database";
+      echo "$virus_name and its signature have been succesfuly been uploaded to database";
     }
     else{
       echo '==================== <br>Input a File or Name <br>====================<br><br>';
@@ -83,20 +81,19 @@ if(isset($_FILES['adminFile'])){
 
 //Gets virus signature;
 function get_virus_signature($conn){
-$file = $_FILES['adminFile']['tmp_name'];
-$fh = fopen($file, 'r') or  die ("File does not exists or you lack permisison to open it");
-$file_size = $_FILES['adminFile']['size'];
+  $file = $_FILES['adminFile']['tmp_name'];
+  $fh = fopen($file, 'r') or  die ("File does not exists or you lack permisison to open it");
+  $file_size = $_FILES['adminFile']['size'];
 
-if($file_size >= 20){
-//Retrieve sanitized signature
-  $signature =  mysql_entities_fix_string($conn,fread($fh, 20));
-  return $signature;
-}
-else{
-  die('File is not large enough');
-}
-fclose($fh); //Close file handler
-
+  if($file_size >= 20){
+  //Retrieve sanitized signature
+    $signature =  mysql_entities_fix_string($conn,fread($fh, 20));
+    return $signature;
+  }
+  else{
+    die('File is not large enough');
+  }
+  fclose($fh); //Close file handler
 }
 //Adds Virus to database
 function add_Virus_To_DB($conn, $virus_name, $virus_signature){
@@ -106,4 +103,14 @@ function add_Virus_To_DB($conn, $virus_name, $virus_signature){
   $stmt->close();
 }
 $conn->close(); // Close connection for security
+ 
+
+//Sanitizes input
+function mysql_entities_fix_string($conn, $string){
+  return htmlentities(mysql_fix_string($conn,$string));
+}
+function mysql_fix_string($conn, $string){
+if(get_magic_quotes_gpc()) $string = stripslashes($string);
+return $conn->real_escape_string($string);
+}
   ?>

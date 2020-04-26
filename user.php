@@ -5,7 +5,7 @@ $conn = new mysqli($hn, $un, $pw, $db);
 if($conn ->connect_error)die ("OOOPS");
 
 
-//Heredoc for HTML code
+//Heredoc for User-Upload html code
     echo <<<_END
     <html><head><title>Anti-Virus</title></head><body>
     <h1>Anti-Virus </h1>
@@ -16,15 +16,17 @@ if($conn ->connect_error)die ("OOOPS");
     </form>
   _END;
 
- 
   //Checks if user has uploaded file
   if($_FILES){
-    //Perform virus scan
-    virus_scan($conn);
+    if(file_exists($_FILES['userFile']['tmp_name'])){
+      //Perform virus scan
+      virus_scan($conn);
+    }
+    else{
+      echo '==================== <br>Input a File <br>====================<br><br>';
+    }
   }
-  else{
-    echo '==================== <br>Input a File <br>====================<br><br>';
-  }
+  
 
   $conn->close();  //Close connection
   
@@ -33,6 +35,7 @@ if($conn ->connect_error)die ("OOOPS");
     
     $notInfected = TRUE;
 
+    //Retrieve File
     $file_size = $_FILES['userFile']['size'];
     if($file_size < 20) die("File is not a virus"); 
     $file = $_FILES['userFile']['tmp_name'];
@@ -49,11 +52,11 @@ if($conn ->connect_error)die ("OOOPS");
         break;
       }
     }
+    fclose($fh); // Close file pointer
     if($notInfected){
       echo "The file is not infected";
     }
 
-    fclose($fh); // Close file pointer
   }
 
 //Helper function that searches for virus in admin database
@@ -76,7 +79,6 @@ function search_virus($conn,$data){
       echo 'Your file contains a malware called ' . $row['virus_name']. '<br>';
       return TRUE;
     }
-
     //Close connection for security
     $result->close();
   }
@@ -84,14 +86,16 @@ function search_virus($conn,$data){
     return FALSE;
   }
 }
+
 //Sanitizes input
 function mysql_entities_fix_string($conn, $string){
   return htmlentities(mysql_fix_string($conn,$string));
 }
 function mysql_fix_string($conn, $string){
-  if(get_magic_quotes_gpc()) $string = stripslashes($string);
-  return $conn->real_escape_string($string);
+if(get_magic_quotes_gpc()) $string = stripslashes($string);
+return $conn->real_escape_string($string);
 }
+
   ?>
 
 
