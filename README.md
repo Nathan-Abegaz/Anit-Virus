@@ -3,7 +3,7 @@ The idea is to create a web-based Antivirus application that allows the users to
 That is, if it is a Malware or not.
 
 
-## The webpage will do the following: 
+## Features: 
 - [x] Allows the user to submit a putative infected file and shows if it is infected or not.
 - [x] Lets authenticate an Admin and allows him/her to submit a Malware file, plus the name of the uploaded Malware (ex, Winwebsec).
 - [x] Reads a file uploaded in input by an Admin, per bytes, and stores a sequence of bytes from the file, say, the first 20 bytes (signature), in a database (Note: an Admin uploads only Malware files).
