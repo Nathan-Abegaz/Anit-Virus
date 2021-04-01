@@ -9,6 +9,6 @@ That is, if it is a Malware or not.
 - [x] Reads a file uploaded in input by an Admin, per bytes, and stores a sequence of bytes from the file, say, the first 20 bytes (signature), in a database (Note: an Admin uploads only Malware files).
 - [x] Reads a file uploaded by a normal user in input, per bytes, and searches within the file for one of the strings stored in the database (Note: a normal user will always upload putative infected files). 
 
-## MySQL database:
+## MySQL Database:
 - [x] Stores the information regarding the infected files in input, such as name of the malware (not the name of the file) and the sequence of bytes
 - [x] Stores the information related to the Admin with username and password, in the most secure way of your knowledge.
