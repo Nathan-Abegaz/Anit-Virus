@@ -10,4 +10,4 @@ The idea is to create a web-based Antivirus application that allows the users to
 
 ## MySQL Database:
 - [x] Stores the information regarding the infected files in input, such as name of the malware (not the name of the file) and the sequence of bytes
-- [x] Stores the information related to the Admin with username and password, in the most secure way of your knowledge.
+- [x] Stores the information related to the Admin with username and password
