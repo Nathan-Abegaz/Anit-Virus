@@ -1,5 +1,5 @@
 # Anti-Virus Scanner
-The idea is to create a web-based Antivirus application that allows the users to upload a file (of any type) to check if it contains malicious content.
+The idea is to create a web-based Anti-Virus application that allows the users to upload a file (of any type) to check if it contains malicious content.
 
 
 ## Features: 
